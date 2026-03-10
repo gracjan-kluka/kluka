@@ -10,25 +10,17 @@ df = pd.read_csv("sales_raw.csv")
 
 print("\n=== PODSTAWOWE OBLICZENIA ===")
 
-# total_value
 df["total_value"] = df["quantity"] * df["unit_price"]
 
-# Sprzedaż wg kraju
 sales_by_country = df.groupby("country")["total_value"].sum()
-
-# Sprzedaż wg produktu
 sales_by_product = df.groupby("product_name")["total_value"].sum()
 
 print("\nSprzedaż wg kraju:\n", sales_by_country)
 print("\nSprzedaż wg produktu:\n", sales_by_product)
 
-# Filtrowanie > 1000
 df_high_value = df[df["total_value"] > 1000]
-
-# Zapis
 df_high_value.to_csv("high_value_sales.csv", index=False)
 
-# Podsumowanie liczby transakcji
 transactions_by_country = df_high_value.groupby("country").size()
 print("\nTransakcje >1000 wg kraju:\n", transactions_by_country)
 
@@ -39,26 +31,21 @@ print("\nTransakcje >1000 wg kraju:\n", transactions_by_country)
 
 print("\n=== TRANSFORMACJA DANYCH ===")
 
-# Usunięcie duplikatów
 df = df.drop_duplicates()
 
-# total_price
 df["total_price"] = df["quantity"] * df["unit_price"]
 
-# ISO krajów
 country_iso = {
     "Poland": "PL",
     "Germany": "DE"
 }
 df["country_iso"] = df["country"].map(country_iso)
 
-# Daty
 df["order_date"] = pd.to_datetime(df["order_date"])
 df["year"] = df["order_date"].dt.year
 df["month"] = df["order_date"].dt.month
 df["day"] = df["order_date"].dt.day
 
-# BONUS: outliery cenowe
 q1 = df["unit_price"].quantile(0.25)
 q3 = df["unit_price"].quantile(0.75)
 iqr = q3 - q1
@@ -99,7 +86,7 @@ trend_grouped = trend.groupby(["country", "year", "month"])["total_price"].sum()
 print("\n=== RANKINGI ===")
 
 top_clients = (
-    df.groupby(["country", "customer_id"])["total_price"]
+    df.groupby(["country", "customer_name"])["total_price"]
     .sum()
     .reset_index()
     .sort_values(["country", "total_price"], ascending=[True, False])
@@ -135,13 +122,12 @@ print("Korelacja cena vs ilość:", correlation)
 
 print("\n=== MODEL HURTOWNI ===")
 
-dim_customer = df[["customer_id", "country"]].drop_duplicates()
-dim_product = df[["product_id", "product_name", "category"]].drop_duplicates()
+dim_customer = df[["customer_name", "country"]].drop_duplicates()
+dim_product = df[["product_name", "category"]].drop_duplicates()
 
 fact_sales = df[[
     "order_id",
-    "customer_id",
-    "product_id",
+    "customer_name",
     "order_date",
     "quantity",
     "total_price"
