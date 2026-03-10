@@ -1,0 +1,6 @@
+W tym zadaniu zastosowano podejście Kimballa.
+
+Projekt zaczyna się od analizy potrzeb biznesowych (np. sprzedaż według krajów
+i trend sprzedaży w czasie). Następnie tworzony jest model gwiazdy
+(star schema) z tabelą faktów sprzedaży oraz tabelami wymiarów
+takimi jak Customer, Product i Date.

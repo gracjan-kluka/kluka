@@ -1,0 +1,68 @@
+1. Model logiczny
+
+Tabela faktów:
+FactSales – tabela przechowująca dane o sprzedaży.
+
+Miary:
+- Quantity
+- UnitPrice
+- SalesAmount (Quantity * UnitPrice)
+
+Wymiary:
+
+DimCustomer
+- CustomerID (Primary Key)
+- Country
+
+DimProduct
+- StockCode (Primary Key)
+- Description
+- UnitPrice
+
+DimDate
+- Date (Primary Key)
+- Year
+- Month
+- Day
+
+Ziarnistość danych:
+Jedna sprzedaż produktu w jednej fakturze w określonym czasie.
+
+2. Przygotowanie danych
+
+Dane mogą być przygotowane w Pythonie przy użyciu biblioteki pandas.
+
+Przykładowe wczytanie danych:
+
+import pandas as pd
+df = pd.read_csv("Online_Retail.csv", encoding="ISO-8859-1")
+
+Usunięcie brakujących wartości CustomerID:
+
+df = df.dropna(subset=["CustomerID"])
+
+Obsługa zwrotów (ujemne Quantity oznacza zwrot produktu):
+
+returns = df[df["Quantity"] < 0]
+
+Utworzenie nowej miary SalesAmount:
+
+df["SalesAmount"] = df["Quantity"] * df["UnitPrice"]
+
+3. Odpowiedź na pytanie biznesowe
+
+Sprzedaż według krajów:
+
+sales_by_country = df.groupby("Country")["SalesAmount"].sum()
+
+Trend sprzedaży w czasie:
+
+df["InvoiceDate"] = pd.to_datetime(df["InvoiceDate"])
+sales_trend = df.groupby(df["InvoiceDate"].dt.year)["SalesAmount"].sum()
+
+4. Uzasadnienie decyzji projektowych
+
+Zastosowano model gwiazdy (star schema), ponieważ jest on prostszy
+i bardziej wydajny w analizach OLAP. Oddzielenie tabeli faktów
+od tabel wymiarów umożliwia szybsze wykonywanie zapytań
+analitycznych oraz łatwiejszą agregację danych.

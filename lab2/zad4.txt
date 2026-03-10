@@ -1,0 +1,12 @@
+Ten model nie jest wygodny do analiz OLAP, ponieważ dane są znormalizowane
+i podzielone na wiele tabel. Aby wykonać analizę, na przykład sprzedaży
+według kraju lub produktu, trzeba łączyć dane z kilku tabel.
+
+Wymaga to wielu operacji JOIN między tabelami, np.:
+-połączenie tabeli sales z invoices przez InvoiceNo
+-połączenie invoices z customers przez CustomerID
+-połączenie sales z products przez StockCode
+
+W analizach OLAP częściej stosuje się modele typu star schema lub
+denormalizowane tabele faktów i wymiarów, ponieważ pozwalają wykonywać
+analizy szybciej i z mniejszą liczbą operacji JOIN.

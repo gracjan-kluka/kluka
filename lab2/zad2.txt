@@ -1,0 +1,36 @@
+Zadanie 2 - Identyfikacja encji
+
+Na podstawie danych z pliku Online_Retail.csv można wskazać następujące encje:
+
+1. Customer
+Klucz główny (Primary Key): CustomerID
+Podstawowe atrybuty:
+- CustomerID
+- Country
+
+Opis: Encja reprezentuje klienta dokonującego zakupów.
+
+2. Product
+Klucz główny (Primary Key): StockCode
+Podstawowe atrybuty:
+- StockCode
+- Description
+- UnitPrice
+
+Opis: Encja reprezentuje produkt dostępny w sprzedaży.
+
+3. Invoice
+Klucz główny (Primary Key): InvoiceNo
+Podstawowe atrybuty:
+- InvoiceNo
+- InvoiceDate
+- CustomerID
+
+Opis: Encja reprezentuje fakturę lub zamówienie złożone przez klienta.
+
+4. Country
+Klucz główny (Primary Key): Country
+Podstawowe atrybuty:
+- Country
+
+Opis: Encja reprezentuje kraj, z którego pochodzi klient.

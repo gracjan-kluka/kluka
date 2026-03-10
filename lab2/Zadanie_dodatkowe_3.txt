@@ -1,0 +1,13 @@
+W podejściu Inmona projekt zaczyna się od integracji danych źródłowych
+i budowy centralnej hurtowni danych (EDW). Dane w hurtowni są
+przechowywane w modelu znormalizowanym 3NF.
+
+Najpierw tworzony jest model encji, np.:
+- Klient
+- Produkt
+- Faktura
+- Pozycja faktury
+
+Następnie definiowane są relacje i klucze między encjami.
+Dopiero później budowane są struktury analityczne (np. data marty
+lub widoki), na których wykonywane są analizy sprzedaży.
